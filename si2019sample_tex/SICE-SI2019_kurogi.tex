@@ -1,0 +1,135 @@
+\documentclass[a4paper]{jarticle}
+\usepackage{sice-si}
+\usepackage{amsmath} 
+\usepackage{graphicx}
+
+
+\begin{document}
+%
+
+\title{画像特徴量を利用した触覚振動表現において\\振動強度不変な重畳提示手法の検討} 
+\name{○黒木　詢也（熊本大学）， 嵯峨　智（熊本大学）} 
+\etitle{The vibration presentation method with invariant intensity in tactile vibration representation using image features} 
+\ename{○Junya KUROGI (Kumamoto University), and Satoshi SAGA (Kumamoto University)}	
+%
+
+\abst{
+We have been researching a rendering method to improve tactile reproducibility in our haptic display that can control vibration in two directions. In this paper, we propose a presentation method that calculates the integral value of the amplitude of the vibration information before and after superimposing the image features, and multiplies the ratio to the vibration information after superposition. By using this method, vibration can be presented without losing vibration intensity. 
+}
+
+\maketitle
+
+
+\section{緒言}
+
+近年，世界中でタッチパネルが利用されている．しかし,これらの多くは触覚によるフィードバックが存在していない．
+研究レベルにおいては，多くの研究者が様々なデバイスを開発しており，これらの振動刺激は高い再現性を実現している\cite{chubb2010shiverpad, konyo2008alternative}．
+しかし，これらのデバイスは振動方向が1次元に限定されているものがほとんどである．我々はこの振動方向に着目し，これまでに2次元方向に振動制御可能な剪断力提示装置(Fig．\ref{fig1})を用いて,x,y軸方向の振動を正確に提示した際の触覚再現性の検証をおこなってきた\cite{kurogi2018}．\par
+以前には，単純な記録振動の提示では再現が困難なテクスチャに対し，画像特徴量を用いて振動の特徴的な部分をより強調することで再現性を向上させる手法を提案した．しかし，この手法では本来の記録振動より振動強度が減少してしまうという問題があった．本稿では，この問題点を解決するために画像特徴量を重畳する前と後の振動情報の振幅の積分値を求め，その比を重畳後の振動情報にかけ合わせることで，振動エネルギーを損なわないように振動を提示する手法を提案する．
+
+\begin{figure}[tb]
+  \begin{center}
+    \includegraphics*[width=70mm]{device.eps}
+  \end{center}
+  \vspace*{-6mm}
+  \caption{剪断力提示装置}
+  \label{fig1}
+\end{figure}
+
+\section{画像特徴量を用いた振動提示手法}
+本節では，以前我々が提案した画像特徴量の重畳を用いた振動提示手法について簡単に説明する．
+我々は，これまでの研究から，記録した生の振動情報をそのまま提示するだけでは再現性の向上が困難なテクスチャが存在すると
+考察している\cite{kurogi2018}．そこで，振動情報を提示する際にテクスチャ画像から得られる特徴量を利用することでテクスチャの再現性を向上させる手法を検討した．その手法では，画像から抽出される特徴量を振動提示に利用できる1次元の形に加工し，振動情報に重畳することで特徴的な部分をより強調した振動提示を可能にした．
+その際，画像情報の抽出に用いた自作テクスチャと実際に抽出を行った結果をFig．\ref{fig2}に示す．
+
+\begin{figure}[tb]
+  \begin{center}
+ \begin{tabular}{c}
+
+    \begin{minipage}{0.33\hsize}
+        \begin{center}
+           \includegraphics*[width=35mm]{tile.eps}
+           
+           
+        \end{center}
+      \end{minipage}
+   \begin{minipage}{0.06\hsize}
+        \hspace{2mm}
+      \end{minipage}
+   \begin{minipage}{0.33\hsize}
+       \begin{center}
+          \includegraphics*[width=35mm]{akaze.eps}
+	
+      \end{center}
+      
+   \end{minipage}
+　　\end{tabular}
+      \caption{(左)自作テクスチャ：(右)抽出した特徴量}
+　　　\label{fig2}
+  \end{center}
+\end{figure}
+
+以前の手法では，特徴点の大きさを表すパラメータであるsizeを抜き出してx軸，y軸それぞれの1次元情報に加工して振動情報に重畳した．提示振動は以下の(1)式で求められる．
+なお，$a_x,a_y$はx軸，y軸の提示振動であり，$e$は重畳するsize情報である．
+\begin{equation}
+  a(x,y)=a_xe(x)+a_ye(y)
+\end{equation}
+
+しかし，この手法では特徴量を[0,1]で正規化して重畳していたため，画像特徴のない部分の振動が失われ，振動強度が記録した元信号と比べて極端に減少してしまっていた．また，それに関して振動強度を失わないように正規化処理の方法を複数パターン用意し心理物理実験を行った結果，テクスチャの再現性向上のためには特徴部分を強調しつつ振動強度も損なわないような振動提示手法が必要である可能性が示唆された\cite{kurogi2019VRSJ}．
+
+\section{提案手法}
+以前の手法で問題点となった振動強度の損失を最小限し，かつ特徴部分を強調するための新たな提示手法として，振動情報の積分値を用いる手法を提案する．今回は記録した振動情報の積分値をその振動がもつ振動エネルギーであると定義し，この振動エネルギーが減少しないように提示振動に適切な処理を行うことで振動強度の損失を最小限にする．そのための方法として画像特徴量を重畳する前と後の振動の単位区間あたりの積分値を求めて，その比を重畳後の振動にかけて提示を行う．
+これにより特徴部分の振動がより強調され，振動エネルギーの減少を抑えた振動提示が可能となる．
+
+本手法では積分する単位区間を1000として処理を行った．以下に提示振動の求め方を示す．画像特徴量を重畳する前のx軸振動を$a_x$，重畳した後の振動を(1)式より$a_{x}e(x)$とするとx軸の提示振動$a_x^p$は，
+
+\begin{equation}
+  a_x^p = \frac{ \int {a_{x}}}{\int {a_{x}e(x)}}a_{x}e(x)
+\end{equation}
+
+で表される．y軸も同様に
+
+\begin{equation}
+  a_y^p = \frac{ \int {a_{y}}}{\int {a_{y}e(y)}}a_{y}e(y)
+\end{equation}
+と求められ，提示振動$a$は
+
+\begin{equation}
+  a = a_x^p + a_y^p
+\end{equation}
+となる．提案手法を用いていない場合の提示振動をFig．\ref{fig3}に，用いた場合の提示振動をFig．\ref{fig4}に示す．
+
+
+\begin{figure}[tb]
+  \begin{center}
+    \includegraphics*[width=80mm]{accf1.eps}
+  \end{center}
+  \vspace*{-6mm}
+  \caption{提示振動(提案手法なし)}
+  \label{fig3}
+\end{figure}
+
+
+\begin{figure}[tb]
+  \begin{center}
+    \includegraphics*[width=80mm]{accf2.eps}
+  \end{center}
+  \vspace*{-6mm}
+  \caption{提示振動(提案手法あり)}
+  \label{fig4}
+\end{figure}
+
+Fig．\ref{fig3}，\ref{fig4}から，提案手法を用いることで特徴的な部分での振動がより強調されており，振動強度が増加していることが分かる．
+
+\section{結言}
+本稿では，記録した生の振動情報をそのまま提示するだけでは再現が困難であったテクスチャに対して，より再現性を向上させることを目標として，以前提案した画像特徴量の重畳を用いた提示手法の問題点を解決するための手法を新たに提案した．提案手法では特徴点の振動強度を増加させ，振動エネルギーを損なわない振動提示が可能となった．
+
+本手法では積分値の比が約7～10倍程度になったため提示振動の値が大きくなってしまった．今後の展望として，記録振動の特徴を失わないよう振動提示するためにデバイス出力の上限下限を検討する必要があると考えている．また，本手法を用いることでテクスチャの再現性が向上するのかを検証するために心理物理実験を行い，さらに触覚再現性の高い提示手法を検討していく予定である．
+
+\bibliographystyle{junsrt}
+\bibliography{ref}
+%
+%
+%
+\end{document}
+

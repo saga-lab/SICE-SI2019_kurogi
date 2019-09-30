@@ -1,0 +1,28 @@
+\begin{thebibliography}{1}
+
+\bibitem{chubb2010shiverpad}
+Erik~C Chubb, J~Edward Colgate, and Michael~A Peshkin.
+\newblock Shiverpad: A glass haptic surface that produces shear force on a bare
+  finger.
+\newblock {\em IEEE Transactions on Haptics}, Vol.~3, No.~3, pp. 189--198,
+  2010.
+
+\bibitem{konyo2008alternative}
+Masashi Konyo, Hiroshi Yamada, Shogo Okamoto, and Satoshi Tadokoro.
+\newblock Alternative display of friction represented by tactile stimulation
+  without tangential force.
+\newblock In {\em International Conference on Human Haptic Sensing and Touch
+  Enabled Computer Applications}, pp. 619--629. Springer, 2008.
+
+\bibitem{kurogi2018}
+黒木詢也, 嵯峨智, 有次正義.
+\newblock タッチパネル上での剪断力による触覚提示手法の検討.
+\newblock 知覚情報研究会, 2018.
+
+\bibitem{kurogi2019VRSJ}
+黒木詢也, 嵯峨智.
+\newblock 画像特徴量を利用した触覚振動表現における重み付け変化の影響
+  に関する検討.
+\newblock 日本バーチャルリアリティ学会第24回大会論文集, 2019.
+
+\end{thebibliography}
